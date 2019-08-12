@@ -173,7 +173,7 @@ function build {
   local PYDOCKERFILE=${PYDOCKERFILE:-false}
   local RDOCKERFILE=${RDOCKERFILE:-false}
 
-  (cd $(img_ctx_dir base) && docker build $NOCACHEARG "${BUILD_ARGS[@]}" \
+  (cd $(img_ctx_dir base) && docker build --network host $NOCACHEARG "${BUILD_ARGS[@]}" \
     -t $(image_ref spark) \
     -f "$BASEDOCKERFILE" .)
   if [ $? -ne 0 ]; then
@@ -181,7 +181,7 @@ function build {
   fi
 
   if [ "${PYDOCKERFILE}" != "false" ]; then
-    (cd $(img_ctx_dir pyspark) && docker build $NOCACHEARG "${BINDING_BUILD_ARGS[@]}" \
+    (cd $(img_ctx_dir pyspark) && docker build --network host $NOCACHEARG "${BINDING_BUILD_ARGS[@]}" \
       -t $(image_ref spark-py) \
       -f "$PYDOCKERFILE" .)
       if [ $? -ne 0 ]; then
@@ -190,7 +190,7 @@ function build {
   fi
 
   if [ "${RDOCKERFILE}" != "false" ]; then
-    (cd $(img_ctx_dir sparkr) && docker build $NOCACHEARG "${BINDING_BUILD_ARGS[@]}" \
+    (cd $(img_ctx_dir sparkr) && docker build --network host $NOCACHEARG "${BINDING_BUILD_ARGS[@]}" \
       -t $(image_ref spark-r) \
       -f "$RDOCKERFILE" .)
     if [ $? -ne 0 ]; then

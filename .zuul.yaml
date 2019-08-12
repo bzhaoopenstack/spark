@@ -1,0 +1,16 @@
+- project:
+    name: theopenlab/spark
+    check:
+      jobs:
+        - spark-k8s-test
+
+- job:
+    name: spark-k8s-test
+    parent: init-test
+    description: |
+      Run integration tests of spark of master against v1.13.3 k8s cluster deployed by v0.34.1 minikube
+    run: .zuul/playbooks/spark-k8s-test/run.yaml
+    nodeset: ubuntu-xenial-arm64
+    timeout: 18000
+    vars:
+      k8s_log_dir: '{{ ansible_user_dir }}/workspace/logs/kubernetes'
